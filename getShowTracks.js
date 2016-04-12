@@ -1,29 +1,40 @@
 var request = require('request');
-var events = require('events');
 var parseJSON = require('./parseJSON.js');
 
-var eventsEmitter = new events.EventEmitter();
 
 
-var getTime = function(url, showName, complete) {
+var getTracks = function(url, times, complete) {
+	var reqUrl = url + '&startTime=' + times.start + '&endTime=' + times.end;
+
 	var reqHandler = function (error, response, body) {
 		if(error) console.log(error);
    		else {
 			var objResp = parseJSON.parse(body);
-			for (var i in objResp.Items) {
+
+
+
+			console.log(objResp.Plays[0]);
+
+			/*for (var i in objResp.Items) {
+				
+
+				//TODO --- PARSE THE JSON THING
+
 				var item = objResp.Items[i];
 				if (item.Program.Name == showName) { 
-					console.log('Found Show Times...');
+					console.log('Found Tracks...');
 					complete(item.Shows[0]);
-					eventsEmitter.emit('gotShow');
 				}
-			}; 
+			}; */
    		} 	
 	};
-	request(url, reqHandler);
+
+
+
+	request(reqUrl, reqHandler);
+
 };
 
 module.exports = {
-    getTime : getTime,
-    events : eventsEmitter
+    getTracks : getTracks
 };
