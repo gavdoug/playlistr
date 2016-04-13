@@ -54,12 +54,4 @@ var getShow = function () {
 
 };
 
-
-
-
-
-
-
-getShow(); // Start it all up
-// https://github.com/jamon/playmusic   
-//  http://cache.kexp.org/cache/plays?startTime=2016-04-1T01:04&endTime=2016-04-1T04:04&channel=1
+getShow(); 
