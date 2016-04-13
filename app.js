@@ -11,6 +11,7 @@ var tracksUrl = 'http://cache.kexp.org/cache/plays?channel=1';
 
 var getShow = function () {
     var times; 
+    var tracks;
     lastShow.getTime(showsUrl, showName, function(show) {
 
        var cleanDate = function(date) {
@@ -31,15 +32,23 @@ var getShow = function () {
         console.log('start ', times.start);
         console.log('end ', times.end);
 
-        // TODO
-        // Work out getShowTracks.js, pass in times
-
-        getShowTracks.getTracks(tracksUrl, times, function(){});
-
+         getShowTracks.getTracks(tracksUrl, times, function(shows){
+            tracks = shows;
+         });
         
     });  
 
-
+    getShowTracks.events.on('gotTracks', function() {
+        console.log(tracks);
+        // Barf out some track info here
+        for (var i in tracks) {
+            if (tracks[i].Track){
+                var tName = tracks[i].Track.Name;
+                var artist = tracks[i].Artist.Name;
+                console.log(artist + ', ' + tName);
+            }
+        }
+    });
 
 
 
@@ -52,5 +61,5 @@ var getShow = function () {
 
 
 getShow(); // Start it all up
-// https://github.com/jamon/playmusic
+// https://github.com/jamon/playmusic   
 //  http://cache.kexp.org/cache/plays?startTime=2016-04-1T01:04&endTime=2016-04-1T04:04&channel=1
